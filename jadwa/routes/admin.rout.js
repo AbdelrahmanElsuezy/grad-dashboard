@@ -89,6 +89,6 @@ router.post("/adduser", (req, res) =>{
 
 //////////////////////////////////packages////////////////////////////////////
 //getall packages
-router.get("/view&editPackages",getAllPackages);
+router.get("/viewprogress",getAllPackages);
 
 export default router;

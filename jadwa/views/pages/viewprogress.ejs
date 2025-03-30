@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View and Edit Packages</title>
+  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/adminDashboard.css" />
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #1e2a3a;
+      color: white;
+      padding: 20px;
+    }
+
+    /* Header */
+    .dashboard-header {
+      background-color: #3498db;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* Column Headers */
+    .column-headers {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .column-header {
+      background-color: #3498db;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* Student Cards */
+    .student-row {
+      margin-bottom: 20px;
+    }
+
+    .student-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 2px;
+    }
+
+    .card {
+      background-color: #2c3e50;
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+    }
+
+    /* User Card */
+    .user-card {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-right: 15px;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .checkmark {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: #3498db;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Progress Card */
+    .progress-bar-container {
+      background-color: #1e2a3a;
+      height: 8px;
+      border-radius: 4px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      background-image: linear-gradient(to right, #3498db, #2ecc71);
+    }
+
+    .puzzle-count {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* Time Card */
+    .time-card {
+      text-align: center;
+    }
+
+    .time-value {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .time-label {
+      color: #3498db;
+      font-size: 14px;
+    }
+
+    /* Score Card */
+    .score-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-value {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    /* Details Panel */
+    .details-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      background-color: #2c3e50;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .details-section {
+      padding-right: 10px;
+    }
+
+    .details-header {
+      color: #3498db;
+      border-bottom: 1px solid #4a5c6a;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .details-content {
+      font-size: 14px;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 5px 10px;
+    }
+
+    .completed-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .puzzle-name {
+      width: 100px;
+    }
+
+    .completed-label {
+      display: flex;
+      align-items: center;
+    }
+
+    .completed-checkmark {
+      background-color: #2ecc71;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 5px;
+    }
+
+    .completed-text {
+      color: #2ecc71;
+    }
+
+    .summary-item {
+      margin-top: 15px;
+    }
+
+    .best-time {
+      color: #3498db;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <aside>
+    <%- include('../partials/aside.ejs')%>
+  </aside> -->
+  
+  
+
+<body>
+  <div class="dashboard-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      STUDENT PROGRESS DASHBOARD
+    </div>
+
+    <!-- Column Headers -->
+    <div class="column-headers">
+      <div class="column-header">USER</div>
+      <div class="column-header">PUZZLES COMPLETED</div>
+      <div class="column-header">TIME</div>
+      <div class="column-header">SCORE</div>
+    </div>
+
+    <!-- Student Rows -->
+    <!-- John Smith -->
+    <div class="student-row">
+      <div class="student-card">
+        <!-- User Info -->
+        <div class="card user-card">
+          <div class="user-avatar" style="background-color: #3498db;">JS</div>
+          <div class="user-info">
+            <div>John Smith</div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <!-- Puzzles Completed -->
+        <div class="card">
+          <div class="puzzle-count">3/3</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 100%;"></div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <!-- Time -->
+        <div class="card time-card">
+          <div class="time-value">01:45:36</div>
+          <div class="time-label">Total Time</div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <!-- Score -->
+        <div class="card score-card">
+          <div class="score-value" style="color: #2ecc71;">92</div>
+        </div>
+      </div>
+
+      <!-- Details Panel -->
+      <div class="details-panel">
+        <!-- User Details -->
+        <div class="details-section">
+          <div class="details-header">User Details</div>
+          <div class="details-content details-grid">
+            <div>ID:</div>
+            <div>STD-1234</div>
+            <div>Email:</div>
+            <div>jsmith@edu.com</div>
+            <div>Group:</div>
+            <div>Group A</div>
+          </div>
+        </div>
+
+        <!-- Puzzle Details -->
+        <div class="details-section">
+          <div class="details-header">Puzzle Details</div>
+          <div class="details-content">
+            <div class="completed-item">
+              <div class="puzzle-name">Fibonacci:</div>
+              <div class="completed-label">
+                <div class="completed-checkmark">
+                  <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                </div>
+                <div class="completed-text">Completed</div>
+              </div>
+            </div>
+            <div class="completed-item">
+              <div class="puzzle-name">Knapsack:</div>
+              <div class="completed-label">
+                <div class="completed-checkmark">
+                  <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                </div>
+                <div class="completed-text">Completed</div>
+              </div>
+            </div>
+            <div class="completed-item">
+              <div class="puzzle-name">Bubble Sort:</div>
+              <div class="completed-label">
+                <div class="completed-checkmark">
+                  <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                </div>
+                <div class="completed-text">Completed</div>
+              </div>
+            </div>
+            <div class="summary-item">
+              <div>Completed: 3</div>
+              <div>Remaining: 0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Time Breakdown -->
+        <div class="details-section">
+          <div class="details-header">Time Breakdown</div>
+          <div class="details-content details-grid">
+            <div>Fibonacci:</div>
+            <div>00:22:15</div>
+            <div>Knapsack:</div>
+            <div>00:52:21</div>
+            <div>Bubble Sort:</div>
+            <div>00:31:00</div>
+            <div style="margin-top: 15px;">Avg. per puzzle:</div>
+            <div style="margin-top: 15px;">00:35:12</div>
+            <div>Best time:</div>
+            <div class="best-time">00:22:15</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alex Johnson -->
+    <div class="student-row">
+      <div class="student-card">
+        <div class="card user-card">
+          <div class="user-avatar" style="background-color: #e74c3c;">AJ</div>
+          <div class="user-info">
+            <div>Alex Johnson</div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="puzzle-count">2/3</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 66.7%;"></div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card time-card">
+          <div class="time-value">02:05:33</div>
+          <div class="time-label">Total Time</div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card score-card">
+          <div class="score-value" style="color: #f39c12;">78</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sarah Kim -->
+    <div class="student-row">
+      <div class="student-card">
+        <div class="card user-card">
+          <div class="user-avatar" style="background-color: #9b59b6;">SK</div>
+          <div class="user-info">
+            <div>Sarah Kim</div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="puzzle-count">1/3</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 33.3%;"></div>
+          </div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card time-card">
+          <div class="time-value">00:58:12</div>
+          <div class="time-label">Total Time</div>
+          <div class="checkmark">
+            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="card score-card">
+          <div class="score-value" style="color: #e74c3c;">65</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/adminDashboard.js"></script>
+</body>
+</html>

@@ -343,7 +343,7 @@ const getAllPackages = async (req, res) => {
     console.log('Inside getAllPackages controller'); // Log to check if the function is being called
 
     // Render the EJS template with empty data, avoiding database calls
-    res.render('pages/view&editPackages', {
+    res.render('pages/viewprogress', {
       user: req.session.user === undefined ? '' : req.session.user,
       carPackages: [],
       medicalPackages: [],
